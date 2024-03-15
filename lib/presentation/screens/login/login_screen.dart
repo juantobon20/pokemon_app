@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pokemon_app/presentation/widgets/widget.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -39,7 +40,9 @@ class LoginScreen extends StatelessWidget {
           
                 CustomButton(
                   text: 'Ingresar',
-                  onPressedCallback: () {},
+                  onPressedCallback: () {
+                    context.push('/home');
+                  },
                   radius: 10,
                 ),
             

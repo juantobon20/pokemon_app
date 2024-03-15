@@ -6,9 +6,23 @@ final appRouter = GoRouter(
   routes: [
     GoRoute(
       path: loginPath,
-      builder:(context, state) => const LoginScreen(),
+      builder:(_, __) => const LoginScreen(),
+    ),
+
+    GoRoute(
+      path: homePath,
+      builder: (_, __) => const HomeScreen()
+    ),
+
+    GoRoute(
+      path: '/',
+      redirect: (_, __) => '/home',
     )
   ]
 );
 
-const loginPath = '/';
+const loginPath = '/login';
+const homePath = '/:page';
+
+const homeViewPath = "home";
+const favoriteViewPath = "favorites";
