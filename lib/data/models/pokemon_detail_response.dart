@@ -719,7 +719,12 @@ class Type {
 extension PokemonMapper on PokemonDetailResponse {
 
   PokemonEntity mapper() => PokemonEntity(
+    id: id,
     name: name, 
-    img: sprites.other?.dreamWorld.frontDefault ?? 'No image'
+    img: sprites.other?.dreamWorld.frontDefault ?? 'No image',
+    abilities: abilities.map((e) => e.ability.name).toList(),
+    types: types.map((e) => e.type.name).toList(),
+    weightFormated: '${(weight / 10).toStringAsFixed(1)} Kg',
+    sizeFormated: '${(height / 10).toStringAsFixed(1)} M'
   );
 }

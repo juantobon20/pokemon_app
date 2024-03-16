@@ -1,3 +1,4 @@
+export 'backgrounds/custom_gradient.dart';
 export 'buttons/custom_button.dart';
 
 export 'data/inputs/email.dart';

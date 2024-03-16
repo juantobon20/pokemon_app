@@ -2,10 +2,12 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:pokemon_app/presentation/dialogs/error_provider.dart';
-import 'package:pokemon_app/presentation/dialogs/loader.dart';
-import 'package:pokemon_app/presentation/screens/home/cubit/home_cubit.dart';
-import 'package:pokemon_app/presentation/widgets/widget.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pokemon_app/domain/domain.dart';
+
+import '../../../blocs/bloc.dart';
+import '../../../dialogs/dialog.dart';
+import '../../../widgets/widget.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({
@@ -65,6 +67,7 @@ class _HomeViewState extends State<HomeView> {
                         crossAxisSpacing: 10,
                         itemCount: state.pokemons.length,
                         itemBuilder: (context, index) {
+                          final PokemonEntity pokemonEntity = state.pokemons[index];
                           return FadeIn(
                             child: Column(
                               children: [
@@ -72,9 +75,9 @@ class _HomeViewState extends State<HomeView> {
                                   const SizedBox(height: 20),
 
                                 PokemonCard(
-                                  pokemonEntity: state.pokemons[index],
+                                  pokemonEntity: pokemonEntity,
                                   onItemSelected: () {
-                                    print('Name: Pokemon');
+                                    context.push('/home/pokemon_detail/${pokemonEntity.id}');
                                   },
                                 )
                               ],
