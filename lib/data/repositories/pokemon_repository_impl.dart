@@ -10,8 +10,8 @@ class PokemonRepositoryImpl implements PokemonRepository {
   }) : _pokemonDatasource = pokemonDatasource;
 
   @override
-  Future<PokemonEntity> getPokemonById({ required String urlString }) async {
-    final pokemonDetailResponse = await _pokemonDatasource.getPokemonById(urlString: urlString);
+  Future<PokemonEntity> getPokemonById({ required int id }) async {
+    final pokemonDetailResponse = await _pokemonDatasource.getPokemonById(id: id);
 
     return pokemonDetailResponse.mapper();
   }

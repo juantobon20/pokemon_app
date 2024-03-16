@@ -4,5 +4,5 @@ abstract class PokemonRepository {
 
   Future<List<PokemonEntity>> getPokemons({ int offset = 0, int limit = 10 });
 
-  Future<PokemonEntity> getPokemonById({ required String urlString });
+  Future<PokemonEntity> getPokemonById({ required int id });
 }

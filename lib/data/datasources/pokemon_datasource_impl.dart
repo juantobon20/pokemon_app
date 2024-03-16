@@ -1,15 +1,13 @@
-import 'package:dio/dio.dart';
 
+import '../../config/config.dart';
 import '../../domain/domain.dart';
 import '../data.dart';
 
 class PokemonDatasourceImpl implements PokemonDatasource {
 
   @override
-  Future<PokemonDetailResponse> getPokemonById({required String urlString}) async {
-    final response = await DioProvider(
-      dio: Dio(BaseOptions(baseUrl: urlString))
-    ).get('');
+  Future<PokemonDetailResponse> getPokemonById({required int id}) async {
+    final response = await DioProvider().get('/pokemon/$id');
 
     return PokemonDetailResponse.fromJson(response);
   }
@@ -19,7 +17,7 @@ class PokemonDatasourceImpl implements PokemonDatasource {
     final response = await DioProvider().get('/pokemon?offset=$offset&limit=$limit');
     final pokemons = PokemonsResponse.fromJson(response).pokemons;
     return Stream.fromIterable(pokemons)
-      .asyncMap((pokemon) async => await getPokemonById(urlString: pokemon.url) )
+      .asyncMap((pokemon) async => await getPokemonById(id: pokemon.url.getPokemonId()) )
       .toList(); 
   }
 }
