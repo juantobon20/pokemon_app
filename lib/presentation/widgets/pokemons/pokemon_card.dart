@@ -1,19 +1,24 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:pokemon_app/domain/domain.dart';
 
 class PokemonCard extends StatelessWidget {
 
-  final Function onItemSelected;
+  final PokemonEntity _pokemonEntity;
+  final Function _onItemSelected;
 
   const PokemonCard({
     super.key,
-    required this.onItemSelected
-  });
+    required PokemonEntity pokemonEntity,
+    required Function onItemSelected
+  }): _pokemonEntity = pokemonEntity, _onItemSelected = onItemSelected;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        onItemSelected();
+        _onItemSelected();
       },
       child: Card(
         color: Colors.yellow,
@@ -25,21 +30,23 @@ class PokemonCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-                    Text(
-                      'Pikachu',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold
-                      ),
-                    ),
+              Text(
+                _pokemonEntity.name,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
           
               Container(
                 alignment: Alignment.bottomRight,
-                child: Image.asset(
-                  'assets/images/example.png',
-                  height: 100,
-                  width: 100,
+                child: FadeIn(
+                  child: SvgPicture.network(
+                    _pokemonEntity.img,
+                    height: 100,
+                    width: 100,
+                  ),
                 ),
               )
             ]
