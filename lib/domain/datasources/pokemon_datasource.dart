@@ -1,5 +1,4 @@
 import 'package:pokemon_app/data/data.dart';
-import 'package:pokemon_app/data/models/pokemon_entity.dart';
 
 abstract class PokemonDatasource {
 

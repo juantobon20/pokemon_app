@@ -14,16 +14,17 @@ import 'pokemon_datasource_impl_test.mocks.dart';
 ])
 void main() {
   late PokemonDatasource pokemonDatasource;
+  late DioProvider dioProvider;
 
   setUp(() {
-    pokemonDatasource = PokemonDatasourceImpl();
+    dioProvider = MockDioProvider();
+    pokemonDatasource = PokemonDatasourceImpl(
+      dioProvider: dioProvider
+    );
   });
 
-  test('get pokemon by id test', () async {
+  test('given a pokemonId when the get is called it should get the pokemon data', () async {
     const int id = 1;
-    final dioProvider = DioProvider(
-      dio: MockDio()
-    );
 
     Map<String, dynamic> mock = {
       "abilities" : [],
@@ -37,10 +38,11 @@ void main() {
     final pokemonDetail = PokemonDetailResponse.fromJson(mock);
 
     when(dioProvider.get('/pokemon/$id'))
-      .thenAnswer((_) async => Future.value(mock));
+      .thenAnswer((_) async => mock);
     
     final response = await pokemonDatasource.getPokemonById(id: 1);
 
-    expect(response, pokemonDetail);
+    expect(response.name, pokemonDetail.name);
+    expect(response.weight, pokemonDetail.weight);
   });
 }

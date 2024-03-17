@@ -13,7 +13,9 @@ final UserRepository userRepository = UserRepositoryImpl(
 );
 
 final PokemonRepository pokemonRepository = PokemonRepositoryImpl(
-  pokemonDatasource: PokemonDatasourceImpl()
+  pokemonDatasource: PokemonDatasourceImpl(
+    dioProvider: DioProvider()
+  )
 );
   
 void main() {

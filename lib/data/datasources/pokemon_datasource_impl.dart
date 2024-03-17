@@ -7,10 +7,11 @@ import '../data.dart';
 
 class PokemonDatasourceImpl implements PokemonDatasource {
 
-  late Future<Isar> db;
-  PokemonDatasourceImpl() {
-    db = openDb();
-  }
+  final DioProvider _dioProvider;
+
+  PokemonDatasourceImpl({
+    required DioProvider dioProvider
+  }) : _dioProvider = dioProvider;
 
   Future<Isar> openDb() async {
     final dir = await getApplicationDocumentsDirectory();
@@ -27,14 +28,13 @@ class PokemonDatasourceImpl implements PokemonDatasource {
 
   @override
   Future<PokemonDetailResponse> getPokemonById({required int id}) async {
-    final response = await DioProvider().get('/pokemon/$id');
-
+    final response = await _dioProvider.get('/pokemon/$id');
     return PokemonDetailResponse.fromJson(response);
   }
 
   @override
   Future<List<PokemonResponse>> getPokemons({int offset = 0, int limit = 10}) async {
-    final response = await DioProvider().get('/pokemon?offset=$offset&limit=$limit');
+    final response = await _dioProvider.get('/pokemon?offset=$offset&limit=$limit');
     return PokemonsResponse.fromJson(response).pokemons;
   }
   
@@ -44,19 +44,19 @@ class PokemonDatasourceImpl implements PokemonDatasource {
     int offset = 0, 
     int limit = 10
   }) async {
-    final response = await DioProvider().get('/$endPoint?offset=$offset&limit=$limit');
+    final response = await _dioProvider.get('/$endPoint?offset=$offset&limit=$limit');
     return PokemonsFilterResponse.fromJson(response).results;
   }
 
   @override
   Future<List<PokemonResponse>> getPokemonsByFilter({required String endPoint, required String name}) async {
-    final response = await DioProvider().get('/$endPoint/$name');
+    final response = await _dioProvider.get('/$endPoint/$name');
     return PokemonsByFilterResponse.fromJson(response).pokemons; 
   }
 
   @override
   Future<bool> isPokemonFavorite(int pokemonId) async {
-    final isar = await db;
+    final isar = await openDb();
     
     final PokemonEntity? isFavoriteMovie = await isar.pokemonEntitys
       .filter()
@@ -68,7 +68,7 @@ class PokemonDatasourceImpl implements PokemonDatasource {
 
   @override
   Future<List<PokemonEntity>> loadFavoritesPokemons({int limit = 10, int offset = 0}) async {
-    final isar = await db;
+    final isar = await openDb();
 
     return await isar.pokemonEntitys.where()
       .offset(offset)
@@ -78,7 +78,7 @@ class PokemonDatasourceImpl implements PokemonDatasource {
 
   @override
   Future<void> toggleFavorite(PokemonEntity pokemonEntity) async {
-    final isar = await db;
+    final isar = await openDb();
 
     final PokemonEntity? favoritePokemon = await isar.pokemonEntitys
       .filter()

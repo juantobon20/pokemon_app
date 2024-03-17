@@ -23,11 +23,11 @@ class DioProvider {
       final response = await _dio.get(endpoint);
       return response.data;
     } catch (error) {
-      throw _handleError(error);
+      throw _handleError(error as Exception);
     }
   }
 
-  Exception _handleError(dynamic error) {
+  Exception _handleError(Exception error) {
     if (error is DioException) {
       switch (error.type) {
         case DioExceptionType.connectionError:

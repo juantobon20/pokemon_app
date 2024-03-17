@@ -1,6 +1,5 @@
-import 'package:pokemon_app/data/data.dart';
-import 'package:pokemon_app/data/models/pokemon_entity.dart';
-import 'package:pokemon_app/domain/domain.dart';
+import '../../domain/domain.dart';
+import '../data.dart';
 
 class PokemonRepositoryImpl implements PokemonRepository {
 
