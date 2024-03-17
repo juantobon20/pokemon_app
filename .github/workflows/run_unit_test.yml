@@ -1,4 +1,4 @@
-name: Flutter Unit Tests
+name: Integration Apps
 
 on:
   push:
@@ -7,13 +7,21 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - name: Install Flutter
-        uses: Flutter-actions/setup-flutter@v1
+      - uses: futureware-tech/simulator-action@v3
+        with:
+          model: 'iPhone 14'
 
-      - name: Run unit tests
-        run: flutter test
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - run: flutter pub get
+      - run: flutter test integration_test
+# You can use flavors to run test, e.g. flutter test integration_test --dart-define=envFlavor=dev --flavor dev
+# Alternatively, if you're using a custom script to run tests, you can use:
+# - run: ./path/to/your/script.sh
