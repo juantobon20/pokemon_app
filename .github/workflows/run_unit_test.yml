@@ -26,9 +26,9 @@ jobs:
 name: Flutter Unit Tests
 
 on:
-  pull_request:
+  push:
     branches:
-      - main
+      - master
 
 jobs:
   test:
@@ -42,32 +42,3 @@ jobs:
 
       - name: Run unit tests
         run: flutter test
-
-      - name: Set status
-        uses: actions/github-script@v1
-        with:
-          script: |
-            if (steps.run_unit_tests.outcome == 'success') {
-              github.repos.createStatus(
-                {
-                  owner: ${{ github.repository_owner }},
-                  repo: ${{ github.repository }},
-                  sha: ${{ github.sha }},
-                  state: 'success',
-                  context: 'unit-tests',
-                  description: 'Unit tests passed.'
-                }
-              )
-            } else {
-              github.repos.createStatus(
-                {
-                  owner: ${{ github.repository_owner }},
-                  repo: ${{ github.repository }},
-                  sha: ${{ github.sha }},
-                  state: 'failure',
-                  context: 'unit-tests',
-                  description: 'Unit tests failed.'
-                }
-              )
-            }
->>>>>>> 01fcf3c (Feature 9/test GitHub actions (#8))
