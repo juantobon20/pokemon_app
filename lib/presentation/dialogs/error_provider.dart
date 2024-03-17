@@ -30,10 +30,11 @@ class ErrorProvider {
           errorData.errorTitle, 
           errorData.errorMessage
         );
+      case ErrorType.loginError:
+        _showSnackbarError(context, errorData.errorMessage);
     }
   }
 }
-
 
 void _showNoConnectionSheetDialog(BuildContext context, Function onRetryPressed) {
   WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -98,4 +99,11 @@ void _showAlertDialog(
       )
     );
   });
+}
+
+void _showSnackbarError(BuildContext context, String errorMessage) {
+  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text(errorMessage))
+  );
 }

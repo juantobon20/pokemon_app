@@ -7,7 +7,7 @@ class PrimaryButton extends StatelessWidget {
   final bool isLoading;
   final String text;
   final Icon? icon;
-  final VoidCallback onPressedCallback;
+  final VoidCallback? onPressedCallback;
   final double width;
   final double height;
   final EdgeInsetsGeometry padding;
@@ -18,7 +18,7 @@ class PrimaryButton extends StatelessWidget {
     this.isLoading = false,
     this.icon,
     required this.text,
-    required this.onPressedCallback,
+    this.onPressedCallback,
     this.width = double.infinity,
     this.height = 50,
     this.padding = const EdgeInsets.all(10),

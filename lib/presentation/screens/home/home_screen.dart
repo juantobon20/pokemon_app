@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pokemon_app/config/router/app_router_cubit/app_router_cubit.dart';
 import 'package:pokemon_app/presentation/widgets/widget.dart';
 
 import 'views/view.dart';
@@ -44,6 +47,31 @@ class _HomeScreenState extends State<HomeScreen> {
         scaffoldKey: scaffoldKey,
         currentPosition: _currentIndex,
         onItemSelected: _onItemSelected,
+        logOutPressed: () {
+          showDialog(
+            context: context, 
+            builder:(context) => AlertDialog(
+              title: const Text('Cerrar sesión'),
+              content: const Text('Estas seguro que deseas cerrar sesión?'),
+              actions: [
+                SecondaryButton(
+                  text: 'Cancelar', 
+                  onPressedCallback: () {
+                    context.pop();
+                  }
+                ),
+
+                PrimaryButton(
+                  text: 'Aceptar',
+                  onPressedCallback: () {
+                    context.pop();
+                    context.read<AppRouterCubit>().logOut();
+                  },
+                )
+              ],
+            ), 
+          );
+        }
       ),
     );
   }

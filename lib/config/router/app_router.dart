@@ -4,49 +4,70 @@ import 'package:go_router/go_router.dart';
 import '../../data/data.dart';
 import '../../presentation/blocs/bloc.dart';
 import '../../presentation/screens/screen.dart';
+import 'app_router_cubit/app_router_cubit.dart';
 
-final appRouter = GoRouter(
-  initialLocation: loginPath, 
-  routes: [
-    GoRoute(
-      path: loginPath,
-      builder: (_, __) => const LoginScreen(),
-    ),
-
-    GoRoute(
-      path: homePath,
-      builder: (_, __) => BlocProvider(
-        create: (context) => HomeCubit(
-              pokemonRepository: PokemonRepositoryImpl(
-                pokemonDatasource: PokemonDatasourceImpl()
-              )
-            ),
-        child: const HomeScreen(),
+class AppRouter {
+  GoRouter routes(AppRouterCubit routerCubit) {
+    return GoRouter(initialLocation: loginPath, 
+    
+    routes: [
+      GoRoute(
+        path: loginPath,
+        builder: (_, __) => const LoginScreen(),
       ),
-      routes: [
-        GoRoute(
-          path: pokemonDetailPath,
-          builder: (_, state) {
-            final pokemonId = int.tryParse(state.pathParameters['id'] ?? '1') ?? 1;
-            return BlocProvider(
-              create: (_) => PokemonDetailScreenCubit(
-                pokemonRepository: PokemonRepositoryImpl(
-                  pokemonDatasource: PokemonDatasourceImpl()
-                )
+      GoRoute(
+          path: homePath,
+          builder: (_, __) => BlocProvider(
+                create: (context) => HomeCubit(
+                    pokemonRepository: PokemonRepositoryImpl(
+                        pokemonDatasource: PokemonDatasourceImpl())),
+                child: const HomeScreen(),
               ),
-              child: PokemonDetailScreen(pokemonId: pokemonId),
-            );
-          }
-        ),  
-      ]
-    ),
+          routes: [
+            GoRoute(
+                path: pokemonDetailPath,
+                builder: (_, state) {
+                  final pokemonId = int.tryParse(state.queryParams['id'] ?? '1') ?? 1;
+                  return BlocProvider(
+                    create: (_) => PokemonDetailScreenCubit(
+                        pokemonRepository: PokemonRepositoryImpl(
+                            pokemonDatasource: PokemonDatasourceImpl())),
+                    child: PokemonDetailScreen(pokemonId: pokemonId),
+                  );
+                }),
+          ]),
+      GoRoute(
+        path: '/',
+        redirect: (_, __) => '/home',
+      )
+    ],
+    redirect: (context, state) {
+      final isGoingTo = state.subloc;
+        final AuthStatus authStatus = routerCubit.state.authStatus;
 
-    GoRoute(
-      path: '/',
-      redirect: (_, __) => '/home',
-    )
-  ]
-);
+        if (isGoingTo == loginPath && authStatus == AuthStatus.checking) {
+          return null;
+        }
+
+        if (authStatus == AuthStatus.notAuthenticated) {
+          if (isGoingTo == loginPath) {
+            return null;
+          }
+
+          return loginPath;
+        }
+
+        if (authStatus == AuthStatus.authenticated) {
+          if (isGoingTo == loginPath) {
+            return homePath;
+          }
+        }
+
+        return null;
+    },
+    );
+  }
+}
 
 const loginPath = '/login';
 const homePath = '/:page';
