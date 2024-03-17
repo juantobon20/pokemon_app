@@ -56,7 +56,7 @@ class _SideMenuState extends State<SideMenu> {
           child: Divider(),
         ),
 
-        CustomButton(
+        PrimaryButton(
           text: 'Cerrar sesión', 
           onPressedCallback: () {}
         )

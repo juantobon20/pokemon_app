@@ -1,5 +1,6 @@
 export 'backgrounds/custom_gradient.dart';
-export 'buttons/custom_button.dart';
+export 'buttons/primary_button.dart';
+export 'buttons/secondary_button.dart';
 
 export 'data/inputs/email.dart';
 export 'data/inputs/password.dart';

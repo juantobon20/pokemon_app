@@ -22,7 +22,7 @@ class HomeCubit extends Cubit<HomeState> {
       return;
     }
 
-    emit(state.copyWith(isLoading: true));
+    emit(state.copyWith(isLoading: true, isFilter: false));
 
     ServiceHelper.handleServiceCall(
       serviceCall: () async {
@@ -41,5 +41,48 @@ class HomeCubit extends Cubit<HomeState> {
           isLoading: false
         ));
       });
+  }
+
+  void filterPokemons(FilterData? filterData) {
+    if (filterData == null || state.isLoading) {
+      return;
+    }
+
+    emit(state.copyWith(
+      isLoading: true,
+      pokemons: []
+    ));
+
+    ServiceHelper.handleServiceCall(
+      serviceCall: () async {
+        final pokemons = await _pokemonRepository.getPokemonsByFilter(
+          endPoint: filterData.filterType.name,
+          name: filterData.name
+        );
+        emit(state.copyWith(
+          isLoading: false,
+          isFinishList: pokemons.isEmpty,
+          offset: 0,
+          pokemons: pokemons,
+          errorData: null,
+          filterData: filterData,
+          isFilter: true
+        ));  
+      }, 
+      returnException: (error) {
+        emit(state.copyWith(
+          errorData: error,
+          isLoading: false
+        ));
+      });
+  }
+
+  void clearFilter() {
+    emit(state.copyWith(
+      isFilter: false,
+      pokemons: []
+    ));
+
+    fetchPokemonsNextPage();
   }
 }

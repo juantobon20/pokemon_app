@@ -12,9 +12,9 @@ class PokemonEntity {
     required this.id,
     required this.name, 
     required this.img,
-    required this.abilities,
-    required this.types,
-    required this.weightFormated,
-    required this.sizeFormated
+    this.abilities = const [],
+    this.types = const [],
+    this.weightFormated = '',
+    this.sizeFormated = ''
   });
 }

@@ -1,5 +1,6 @@
 
-import '../../config/config.dart';
+import 'package:pokemon_app/data/models/pokemons_by_filter_response.dart';
+
 import '../../domain/domain.dart';
 import '../data.dart';
 
@@ -13,11 +14,24 @@ class PokemonDatasourceImpl implements PokemonDatasource {
   }
 
   @override
-  Future<List<PokemonDetailResponse>> getPokemons({int offset = 0, int limit = 10}) async {
+  Future<List<PokemonResponse>> getPokemons({int offset = 0, int limit = 10}) async {
     final response = await DioProvider().get('/pokemon?offset=$offset&limit=$limit');
-    final pokemons = PokemonsResponse.fromJson(response).pokemons;
-    return Stream.fromIterable(pokemons)
-      .asyncMap((pokemon) async => await getPokemonById(id: pokemon.url.getPokemonId()) )
-      .toList(); 
+    return PokemonsResponse.fromJson(response).pokemons;
+  }
+  
+  @override
+  Future<List<PokemonFilterResponse>> getFilters({
+    required String endPoint,
+    int offset = 0, 
+    int limit = 10
+  }) async {
+    final response = await DioProvider().get('/$endPoint?offset=$offset&limit=$limit');
+    return PokemonsFilterResponse.fromJson(response).results;
+  }
+
+  @override
+  Future<List<PokemonResponse>> getPokemonsByFilter({required String endPoint, required String name}) async {
+    final response = await DioProvider().get('/$endPoint/$name');
+    return PokemonsByFilterResponse.fromJson(response).pokemons; 
   }
 }

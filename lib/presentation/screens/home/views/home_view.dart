@@ -43,64 +43,76 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 8, right: 8, bottom: 16),
-      child: BlocListener<HomeCubit, HomeState>(
+      child: BlocConsumer<HomeCubit, HomeState>(
         listener: (_, state) {
           if (state.errorData != null) {
             ErrorProvider(
               context: context, 
               errorData: state.errorData!,
-              refresh: context.read<HomeCubit>().fetchPokemonsNextPage
+              onRetryPressed: context.read<HomeCubit>().fetchPokemonsNextPage
             );
           }
         },
-        child: BlocBuilder<HomeCubit, HomeState>(
-          builder: (context, state) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (state.pokemons.isNotEmpty)
-                    Expanded(
-                      child: MasonryGridView.count(
-                        controller: _scrollController,
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10,
-                        itemCount: state.pokemons.length,
-                        itemBuilder: (context, index) {
-                          final PokemonEntity pokemonEntity = state.pokemons[index];
-                          return FadeIn(
-                            child: Column(
-                              children: [
-                                if (index == 1)
-                                  const SizedBox(height: 20),
+        builder: (context, state) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
 
-                                PokemonCard(
-                                  pokemonEntity: pokemonEntity,
-                                  onItemSelected: () {
-                                    context.push('/home/pokemon_detail/${pokemonEntity.id}');
-                                  },
-                                )
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
+              if (state.pokemons.isNotEmpty)
+                FadeIn(
+                  child: PrimaryButton(
+                    icon: const Icon(Icons.filter_alt_sharp),
+                    text: 'Filtros', 
+                    onPressedCallback: () {
+                      showPokemonFilterDialog(
+                        context: context, 
+                        isFilter: state.isFilter,
+                        filterData: state.filterData,
+                        returnFilter: context.read<HomeCubit>().filterPokemons,
+                        clearFilter: context.read<HomeCubit>().clearFilter
+                      );
+                    }
+                  ),
+                ),
 
-                  if (state.isLoading)
-                    const Padding(
-                      padding: EdgeInsets.only(top: 8),
-                      child: Center(child: LoadingDialog()),
-                    )
-                ],
-              );
-            //}
-          },
-        )
-         /*(context, state) {
-           
-        }*/
-      ),
+              if (state.pokemons.isNotEmpty)
+                Expanded(
+                  child: MasonryGridView.count(
+                    controller: _scrollController,
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                    itemCount: state.pokemons.length,
+                    itemBuilder: (context, index) {
+                      final PokemonEntity pokemonEntity = state.pokemons[index];
+                      return FadeIn(
+                        child: Column(
+                          children: [
+                            if (index == 1)
+                              const SizedBox(height: 20),
+
+                            PokemonCard(
+                              pokemonEntity: pokemonEntity,
+                              onItemSelected: () {
+                                context.push('/home/pokemon_detail/${pokemonEntity.id}');
+                              },
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+
+              if (state.isLoading)
+                const Padding(
+                  padding: EdgeInsets.only(top: 8),
+                  child: Center(child: LoadingDialog()),
+                )
+            ],
+          );
+        },
+      )
     );
   }
 }

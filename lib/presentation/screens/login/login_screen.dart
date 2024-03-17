@@ -38,7 +38,7 @@ class LoginScreen extends StatelessWidget {
           
                 const SizedBox(height: 8),
           
-                CustomButton(
+                PrimaryButton(
                   text: 'Ingresar',
                   onPressedCallback: () {
                     context.push('/home');
