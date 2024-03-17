@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:pokemon_app/main.dart';
 
-import '../../../data/data.dart';
 import '../../../domain/domain.dart';
 import '../../blocs/bloc.dart';
 import '../../widgets/widget.dart';
@@ -22,9 +22,7 @@ void showPokemonFilterDialog({
       isScrollControlled: true,
       builder: (context) => BlocProvider(
         create: (context) => PokemonFilterDialogCubit(
-          pokemonRepository: PokemonRepositoryImpl(
-            pokemonDatasource: PokemonDatasourceImpl()
-          )
+          pokemonRepository: pokemonRepository
         ),
         child: _PokemonFilterDialog(
           isFilter: isFilter,

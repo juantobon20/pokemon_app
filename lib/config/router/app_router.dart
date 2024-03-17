@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokemon_app/main.dart';
 
-import '../../data/data.dart';
 import '../../presentation/blocs/bloc.dart';
 import '../../presentation/screens/screen.dart';
 import 'app_router_cubit/app_router_cubit.dart';
@@ -25,8 +24,8 @@ class AppRouter {
             path: homePath,
             builder: (_, __) => BlocProvider(
                   create: (context) => HomeCubit(
-                      pokemonRepository: PokemonRepositoryImpl(
-                          pokemonDatasource: PokemonDatasourceImpl())),
+                    pokemonRepository: pokemonRepository
+                  ),
                   child: const HomeScreen(),
                 ),
             routes: [
@@ -36,8 +35,8 @@ class AppRouter {
                     final pokemonId = int.tryParse(state.params['id'] ?? '-1') ?? -1;
                     return BlocProvider(
                       create: (_) => PokemonDetailScreenCubit(
-                          pokemonRepository: PokemonRepositoryImpl(
-                              pokemonDatasource: PokemonDatasourceImpl())),
+                        pokemonRepository: pokemonRepository
+                      ),
                       child: PokemonDetailScreen(pokemonId: pokemonId),
                     );
                   }),

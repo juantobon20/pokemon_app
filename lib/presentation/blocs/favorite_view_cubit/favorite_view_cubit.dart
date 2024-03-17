@@ -27,7 +27,7 @@ class FavoriteViewCubit extends Cubit<FavoriteViewState> {
 
     emit(state.copyWith(isLoading: true));
 
-    try {
+    /*try {
       final favoritesPokemons = await _pokemonRepository.loadFavoritesPokemons(offset: state.offset, limit: state.limit);
       emit(state.copyWith(
           isLoading: false,
@@ -45,7 +45,7 @@ class FavoriteViewCubit extends Cubit<FavoriteViewState> {
           errorTitle: 'Error favoritos'
         )
       ));
-    }
+    }*/
   }
 
   Future<void> toggleFavorite(PokemonView pokemonView) async {

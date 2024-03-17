@@ -28,6 +28,7 @@ class LoginScreen extends StatelessWidget {
       builder: (context, state) {
         return SafeArea(
           child: GestureDetector(
+            key: const Key('login_screen_gesture_detector'),
             onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
             child: Scaffold(
               body: SingleChildScrollView(
