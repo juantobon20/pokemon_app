@@ -17,10 +17,10 @@ final appRouter = GoRouter(
       path: homePath,
       builder: (_, __) => BlocProvider(
         create: (context) => HomeCubit(
-          pokemonRepository: PokemonRepositoryImpl(
-            pokemonDatasource: PokemonDatasourceImpl()
-          )
-        ),
+              pokemonRepository: PokemonRepositoryImpl(
+                pokemonDatasource: PokemonDatasourceImpl()
+              )
+            ),
         child: const HomeScreen(),
       ),
       routes: [

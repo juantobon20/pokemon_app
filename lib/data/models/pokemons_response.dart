@@ -1,3 +1,6 @@
+import 'package:pokemon_app/config/extensions/string_extension.dart';
+import 'package:pokemon_app/domain/domain.dart';
+
 class PokemonsResponse {
     final int count;
     final String next;
@@ -32,4 +35,16 @@ class PokemonResponse {
         name: json["name"],
         url: json["url"],
     );
+}
+
+extension PokemonsMapper on PokemonResponse {
+
+  PokemonEntity mapper() {
+    final pokemonId = url.getPokemonId();
+    return PokemonEntity(
+      id: pokemonId, 
+      name: name, 
+      img: pokemonId.getImageUrl(),
+    );
+  } 
 }

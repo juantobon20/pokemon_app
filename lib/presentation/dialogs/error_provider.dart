@@ -8,16 +8,16 @@ class ErrorProvider {
 
   final BuildContext context;
   final ErrorData errorData;
-  final Function refresh;
+  final Function onRetryPressed;
 
   ErrorProvider({
     required this.context,
     required this.errorData,
-    required this.refresh
+    required this.onRetryPressed
   }) {
     switch (errorData.errorType) {
       case ErrorType.notConnection: 
-        _showNoConnectionSheetDialog(context, refresh);
+        _showNoConnectionSheetDialog(context, onRetryPressed);
       case ErrorType.api:
         _showAlertDialog(
           context, 
@@ -35,14 +35,14 @@ class ErrorProvider {
 }
 
 
-void _showNoConnectionSheetDialog(BuildContext context, Function refresh) {
+void _showNoConnectionSheetDialog(BuildContext context, Function onRetryPressed) {
   WidgetsBinding.instance.addPostFrameCallback((_) {
     showModalBottomSheet(
       context: context, 
       isScrollControlled: true,
       isDismissible: false,
       builder: (BuildContext _)  {
-        return _NoInternetConnectionWidget(refresh: refresh);
+        return _NoInternetConnectionWidget(onRetryPressed: onRetryPressed);
       }
     );
   });
@@ -50,10 +50,10 @@ void _showNoConnectionSheetDialog(BuildContext context, Function refresh) {
 
 class _NoInternetConnectionWidget extends StatelessWidget {
 
-  final Function _refresh;
+  final Function _onRetryPressed;
   const _NoInternetConnectionWidget({
-    required Function refresh
-  }): _refresh = refresh;
+    required Function onRetryPressed
+  }): _onRetryPressed = onRetryPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -65,11 +65,11 @@ class _NoInternetConnectionWidget extends StatelessWidget {
             child: Lottie.asset('assets/lottie/no_internet.json'),
           ),
       
-          CustomButton(
+          PrimaryButton(
             text: 'Reintentar',
             onPressedCallback: () {
               Navigator.pop(context);
-              _refresh();
+              _onRetryPressed();
             },
           )
         ]

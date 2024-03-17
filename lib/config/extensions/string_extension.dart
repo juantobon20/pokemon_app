@@ -5,3 +5,10 @@ extension GetPokemonIdFromURL on String {
     return int.tryParse(path[3]) ?? -1;
   }
 }
+
+extension GetImageUrl on int {
+
+  String getImageUrl() {
+    return 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/$this.svg';
+  }
+}

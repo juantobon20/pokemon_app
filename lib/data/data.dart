@@ -2,6 +2,7 @@ export 'datasources/pokemon_datasource_impl.dart';
 
 export 'models/pokemon_detail_response.dart';
 export 'models/pokemons_response.dart';
+export 'models/pokemons_filter_response.dart';
 
 export 'network/dio_provider.dart';
 

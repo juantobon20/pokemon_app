@@ -17,24 +17,23 @@ class PokemonDetailScreen extends StatelessWidget {
     context.read<PokemonDetailScreenCubit>().loadPokemonDetailById(pokemonId: pokemonId);
 
     return Scaffold(
-      body: BlocListener<PokemonDetailScreenCubit, PokemonDetailScreenState>(
+      body: BlocConsumer<PokemonDetailScreenCubit, PokemonDetailScreenState>(
         listener: (_, state) {
           if (state.errorData != null) {
             ErrorProvider(
               context: context, 
               errorData: state.errorData!,
-              refresh: context.read<HomeCubit>().fetchPokemonsNextPage
+              onRetryPressed: () => context.read<PokemonDetailScreenCubit>().loadPokemonDetailById(pokemonId: pokemonId)
             );
           }
         },
-        child: BlocBuilder<PokemonDetailScreenCubit, PokemonDetailScreenState>(
-          builder: (context, state) {
-            if (state.isLoading) {
-              return const Center(child: LoadingDialog());
-            }
+        builder: (context, state) {
+          if (state.isLoading) {
+            return const Center(child: LoadingDialog());
+          }
 
-            if (state.pokemonEntity != null) {
-              return CustomScrollView(
+          if (state.pokemonEntity != null) {
+            return CustomScrollView(
               physics: const ClampingScrollPhysics(),
               slivers: [
                 _CustomSliverAppBar(
@@ -52,12 +51,11 @@ class PokemonDetailScreen extends StatelessWidget {
                 )
               ],
             );
-            }
+          }
 
-            return const Placeholder();
-          },
-        ),
-      )
+          return const Placeholder();
+        }
+      ),
     );
   }
 }

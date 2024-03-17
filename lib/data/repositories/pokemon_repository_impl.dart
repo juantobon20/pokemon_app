@@ -21,4 +21,16 @@ class PokemonRepositoryImpl implements PokemonRepository {
     final pokemonsDetailResponse = await _pokemonDatasource.getPokemons(offset: offset, limit: limit);
     return pokemonsDetailResponse.map((e) => e.mapper()).toList();
   }
+  
+  @override
+  Future<List<FilterData>> getFilters({required String endPoint, int offset = 0, int limit = 10}) async {
+    final pokemonsFilterResponse = await _pokemonDatasource.getFilters(endPoint: endPoint);
+    return pokemonsFilterResponse.map((e) => e.mapper(endPoint.getFilterType())).toList();
+  }
+
+  @override
+  Future<List<PokemonEntity>> getPokemonsByFilter({required String endPoint, required String name}) async {
+    final pokemonsDetailResponse = await _pokemonDatasource.getPokemonsByFilter(endPoint: endPoint, name: name);
+    return pokemonsDetailResponse.map((e) => e.mapper()).toList();
+  }
 }

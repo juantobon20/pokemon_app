@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:pokemon_app/domain/domain.dart';
 
 class PokemonCard extends StatelessWidget {
@@ -31,7 +32,7 @@ class PokemonCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                _pokemonEntity.name,
+                toBeginningOfSentenceCase(_pokemonEntity.name),
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 24,
