@@ -6,12 +6,14 @@ class SideMenu extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
   final int currentPosition;
   final Function(int index, String title) onItemSelected;
+  final Function() logOutPressed;
   
   const SideMenu({
     super.key, 
     required this.scaffoldKey,
     required this.currentPosition,
-    required this.onItemSelected
+    required this.onItemSelected,
+    required this.logOutPressed
   });
 
   @override
@@ -58,7 +60,10 @@ class _SideMenuState extends State<SideMenu> {
 
         PrimaryButton(
           text: 'Cerrar sesión', 
-          onPressedCallback: () {}
+          onPressedCallback: () {
+            widget.scaffoldKey.currentState?.closeDrawer();
+            widget.logOutPressed();
+          }
         )
 
         /*

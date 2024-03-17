@@ -18,3 +18,11 @@ class BadRequestException implements Exception {
 }
 
 class UnknownFailureException implements Exception {}
+
+class UserDataException implements Exception {
+  final String message;
+
+  UserDataException({required this.message});
+}
+
+class SharedPreferencesDataException implements Exception {}

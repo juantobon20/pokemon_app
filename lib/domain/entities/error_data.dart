@@ -16,5 +16,6 @@ class ErrorData {
 enum ErrorType {
   notConnection,
   api,
-  otherError
+  otherError,
+  loginError
 }
