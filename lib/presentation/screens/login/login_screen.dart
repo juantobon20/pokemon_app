@@ -13,21 +13,21 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return SafeArea(
-      child: BlocConsumer<LoginScreenBloc, LoginScreenState>(
-        listener: (context, state) {
-          if (state.errorData != null) {
-            ErrorProvider(
-              context: context, 
-              errorData: state.errorData!, 
-              onRetryPressed: () {}
-            );
-          } else if (state.navigateToHome) {
-            context.read<AppRouterCubit>().checkAuthStatus();
-          }
-        },
-        builder: (context, state) {
-          return GestureDetector(
+    return BlocConsumer<LoginScreenBloc, LoginScreenState>(
+      listener: (context, state) {
+        if (state.errorData != null) {
+          ErrorProvider(
+            context: context, 
+            errorData: state.errorData!, 
+            onRetryPressed: () {}
+          );
+        } else if (state.navigateToHome) {
+          context.read<AppRouterCubit>().checkAuthStatus();
+        }
+      },
+      builder: (context, state) {
+        return SafeArea(
+          child: GestureDetector(
             onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
             child: Scaffold(
               body: SingleChildScrollView(
@@ -75,9 +75,9 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

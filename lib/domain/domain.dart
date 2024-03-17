@@ -1,7 +1,7 @@
 export 'datasources/pokemon_datasource.dart';
 export 'datasources/user_datasource.dart';
 
-export 'entities/pokemon_entity.dart';
+export 'entities/pokemon_view.dart';
 export 'entities/filter_data.dart';
 export 'entities/error_data.dart';
 export 'entities/user_view.dart';

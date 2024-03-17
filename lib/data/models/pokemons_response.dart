@@ -39,9 +39,9 @@ class PokemonResponse {
 
 extension PokemonsMapper on PokemonResponse {
 
-  PokemonEntity mapper() {
+  PokemonView mapper() {
     final pokemonId = url.getPokemonId();
-    return PokemonEntity(
+    return PokemonView(
       id: pokemonId, 
       name: name, 
       img: pokemonId.getImageUrl(),

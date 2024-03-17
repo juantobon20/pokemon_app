@@ -6,12 +6,12 @@ import 'package:pokemon_app/domain/domain.dart';
 
 class PokemonCard extends StatelessWidget {
 
-  final PokemonEntity _pokemonEntity;
+  final PokemonView _pokemonEntity;
   final Function _onItemSelected;
 
   const PokemonCard({
     super.key,
-    required PokemonEntity pokemonEntity,
+    required PokemonView pokemonEntity,
     required Function onItemSelected
   }): _pokemonEntity = pokemonEntity, _onItemSelected = onItemSelected;
 
