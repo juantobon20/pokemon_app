@@ -1,0 +1,19 @@
+name: Flutter Unit Tests
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Flutter
+        uses: Flutter-actions/setup-flutter@v1
+
+      - name: Run unit tests
+        run: flutter test
