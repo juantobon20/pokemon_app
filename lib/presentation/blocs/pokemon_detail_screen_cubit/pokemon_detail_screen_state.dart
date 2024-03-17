@@ -2,22 +2,22 @@ part of 'pokemon_detail_screen_cubit.dart';
 
 class PokemonDetailScreenState {
   final bool isLoading;
-  final PokemonEntity? pokemonEntity;
+  final PokemonView? pokemonView;
   final ErrorData? errorData;
 
   PokemonDetailScreenState({
     this.isLoading = false, 
-    this.pokemonEntity,
+    this.pokemonView,
     this.errorData
   });
 
   PokemonDetailScreenState copyWith({
     bool? isLoading,
-    PokemonEntity? pokemonEntity,
+    PokemonView? pokemonEntity,
     ErrorData? errorData
   }) => PokemonDetailScreenState(
     isLoading: isLoading ?? this.isLoading,
-    pokemonEntity: pokemonEntity,
+    pokemonView: pokemonEntity,
     errorData: errorData
   );
 }

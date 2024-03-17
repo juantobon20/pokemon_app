@@ -21,9 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   static const List<Widget> _views = [
     HomeView(),
-    Center(
-      child: Text('No implementado'),
-    )
+    FavoriteScreen()
   ];
 
   void _onItemSelected(index, title) {

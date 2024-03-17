@@ -5,6 +5,8 @@ export 'models/pokemon_detail_response.dart';
 export 'models/pokemons_response.dart';
 export 'models/pokemons_filter_response.dart';
 export 'models/user_preferences.dart';
+export 'models/pokemon_entity.dart';
+export 'models/pokemons_by_filter_response.dart';
 
 export 'network/dio_provider.dart';
 

@@ -1,4 +1,5 @@
 import 'package:pokemon_app/data/data.dart';
+import 'package:pokemon_app/data/models/pokemon_entity.dart';
 
 abstract class PokemonDatasource {
 
@@ -16,4 +17,10 @@ abstract class PokemonDatasource {
     required String endPoint,
     required String name
   });
+
+  Future<void> toggleFavorite(PokemonEntity pokemonEntity);
+
+  Future<bool> isPokemonFavorite(int pokemonId);
+
+  Future<List<PokemonEntity>> loadFavoritesPokemons({ int limit = 10, int offset = 0});
 }

@@ -32,19 +32,18 @@ class PokemonDetailScreen extends StatelessWidget {
             return const Center(child: LoadingDialog());
           }
 
-          if (state.pokemonEntity != null) {
+          if (state.pokemonView != null) {
             return CustomScrollView(
               physics: const ClampingScrollPhysics(),
               slivers: [
                 _CustomSliverAppBar(
-                  title: state.pokemonEntity!.name,
-                  image: state.pokemonEntity!.img,
+                  pokemonView: state.pokemonView!,
                 ),
 
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) => _PokemonDetail(
-                      pokemonEntity: state.pokemonEntity!,
+                      pokemonEntity: state.pokemonView!,
                     ),
                     childCount: 1
                   )
@@ -61,28 +60,41 @@ class PokemonDetailScreen extends StatelessWidget {
 }
 
 class _CustomSliverAppBar extends StatelessWidget {
-  final String title;
-  final String image;
+  final PokemonView pokemonView;
+
   const _CustomSliverAppBar({
-    required this.title,
-    required this.image
+    required this.pokemonView
   });
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    context.read<FavoriteViewCubit>().isFavoritePokemon(pokemonView.id);
 
     return SliverAppBar(
       backgroundColor: Colors.amber,
       expandedHeight: size.height * 0.7,
       foregroundColor: Colors.white,
       actions: [
-        IconButton(onPressed: () {}, icon: const Icon(Icons.favorite_border))
+        IconButton(
+          onPressed: () {
+            context.read<FavoriteViewCubit>().toggleFavorite(pokemonView);
+          },
+          icon: StreamBuilder<bool>(
+            initialData: false,
+            stream: BlocProvider.of<FavoriteViewCubit>(context).isFavorite,
+            builder: (context, snapshot) => 
+              (snapshot.data ?? false)
+                ? const Icon(Icons.favorite_rounded, color: Colors.red)
+                : const Icon(Icons.favorite_border),
+          ),
+        //icon: const Icon(Icons.favorite_border)
+        )
       ],
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.only(left: 16, bottom: 24),
         title: Text(
-          title,
+          pokemonView.name,
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
         ),
         background: Stack(
@@ -91,7 +103,7 @@ class _CustomSliverAppBar extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: SizedBox.expand(
                 child: SvgPicture.network(
-                  image,
+                  pokemonView.img,
                   height: 150,
                   width: 150,
                 )
@@ -125,7 +137,7 @@ class _CustomSliverAppBar extends StatelessWidget {
 }
 
 class _PokemonDetail extends StatelessWidget {
-  final PokemonEntity pokemonEntity;
+  final PokemonView pokemonEntity;
 
   const _PokemonDetail({
     required this.pokemonEntity

@@ -94,7 +94,7 @@ class Type {
 
 extension PokemonMapper on PokemonDetailResponse {
 
-  PokemonEntity mapper() => PokemonEntity(
+  PokemonView mapper() => PokemonView(
     id: id,
     name: name, 
     img: id.getImageUrl(),

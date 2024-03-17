@@ -84,7 +84,7 @@ class _HomeViewState extends State<HomeView> {
                     crossAxisSpacing: 10,
                     itemCount: state.pokemons.length,
                     itemBuilder: (context, index) {
-                      final PokemonEntity pokemonEntity = state.pokemons[index];
+                      final PokemonView pokemonEntity = state.pokemons[index];
                       return FadeIn(
                         child: Column(
                           children: [

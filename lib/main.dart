@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_app/config/config.dart';
-import 'package:pokemon_app/data/data.dart';
-import 'package:pokemon_app/domain/domain.dart';
 
+import 'data/data.dart';
+import 'domain/domain.dart';
 import 'presentation/blocs/bloc.dart';
 
+final UserRepository userRepository = UserRepositoryImpl(
+  userDatasource: UserDatasourceImpl(
+    keyValueStorageService: KeyValueStorageServiceImpl()
+  )
+);
+
+final PokemonRepository pokemonRepository = PokemonRepositoryImpl(
+  pokemonDatasource: PokemonDatasourceImpl()
+);
+  
 void main() {
-  final UserRepository userRepository = UserRepositoryImpl(
-    userDatasource: UserDatasourceImpl(
-      keyValueStorageService: KeyValueStorageServiceImpl()
-    )
-  );
 
   runApp(MultiBlocProvider(
     providers: [
-      BlocProvider(create:(context) => AppRouterCubit(userRepository: userRepository)),
-      BlocProvider(create: (context) => LoginScreenBloc(userRepository: userRepository)),
+      BlocProvider(create:(_) => AppRouterCubit(userRepository: userRepository)),
+      BlocProvider(create: (_) => FavoriteViewCubit(pokemonRepository: pokemonRepository))
     ],
     child: const MainApp()
   ));
