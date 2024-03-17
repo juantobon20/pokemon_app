@@ -1,4 +1,4 @@
-name: Integration Apps
+name: Flutter Unit Tests
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
