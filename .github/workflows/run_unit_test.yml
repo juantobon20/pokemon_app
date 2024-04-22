@@ -1,47 +1,23 @@
-name: Flutter Unit Tests
+name: Flutter test
 
 on:
-  pull_request:
-    branches:
-      - main
+  push:
+    branches: [ master ]
 
 jobs:
-  test:
+  test_flutter:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Install Flutter
-        uses: Flutter-actions/setup-flutter@v1
-
-      - name: Run unit tests
-        run: flutter test
-
-      - name: Set status
-        uses: actions/github-script@v1
+      - name: Setup Flutter
+        uses: actions/setup-flutter@v3
         with:
-          script: |
-            if (steps.run_unit_tests.outcome == 'success') {
-              github.repos.createStatus(
-                {
-                  owner: ${{ github.repository_owner }},
-                  repo: ${{ github.repository }},
-                  sha: ${{ github.sha }},
-                  state: 'success',
-                  context: 'unit-tests',
-                  description: 'Unit tests passed.'
-                }
-              )
-            } else {
-              github.repos.createStatus(
-                {
-                  owner: ${{ github.repository_owner }},
-                  repo: ${{ github.repository }},
-                  sha: ${{ github.sha }},
-                  state: 'failure',
-                  context: 'unit-tests',
-                  description: 'Unit tests failed.'
-                }
-              )
-            }
+          flutter-version: 'latest'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run tests
+        run: flutter test
