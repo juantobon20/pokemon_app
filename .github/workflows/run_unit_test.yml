@@ -9,19 +9,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/cache@v3
-        with:
-          path: ~/.pub-cache
-          key: ${{ runner.os }}-pub-${{ hashFiles('pubspec.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pub-
+      - name: Clone repository
+        uses: actions/checkout@v4
 
-      - uses: actions/checkout@v3
-
-      - name: Setup Flutter
-        uses: actions/setup-flutter@v3
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'latest'
+          channel: stable
+          flutter-version: 3.19.0
+      - run: flutter --version
 
       - name: Install dependencies
         run: flutter pub get
