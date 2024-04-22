@@ -4,11 +4,7 @@
 
 <p id="description">Este es un proyecto de prueba de Ingreso</p>
 
-<<<<<<< HEAD
 <h2>Diagrama de estructura</h2>
-=======
-<h2>Project Screenshots:</h2>
->>>>>>> d2db49c (readme)
 
 <img src="https://www.gregorypacheco.com.br/posts/img/clean-architecture.png" alt="project-screenshot" width="500" height="500/">
 
@@ -16,15 +12,9 @@
 
   
   
-<<<<<<< HEAD
 <h2>🧐 Tareas</h2>
 
 Estas son algunas de las mejores características del proyecto:
-=======
-<h2>🧐 Features</h2>
-
-Here're some of the project's best features:
->>>>>>> d2db49c (readme)
 
 *   Ingreso con correo y contraseña: (test1@google.com/abc123)
 *   Listado de pokemones
@@ -33,11 +23,7 @@ Here're some of the project's best features:
 *   Lista de favoritos
 *   Inicio de sesión con Secure Shated Preferences
 
-<<<<<<< HEAD
 <h2>🛠️ Configuración del proyecto:</h2>
-=======
-<h2>🛠️ Installation Steps:</h2>
->>>>>>> d2db49c (readme)
 
 <p>1. Generar los archivos metadatos para usar isar database</p>
 
